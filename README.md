@@ -1,6 +1,6 @@
 # AIGC Playground 🎮
 
-> 13 个 AI 产品交互模式，纯前端实现，clone 下来就能跑
+> 13 个 AI 产品交互模式，纯前端实现，clone 下来就能跑 | [在线预览](https://paduma.github.io/aigc-playground/)
 
 用过 ChatGPT、Midjourney、数字人直播吗？这些 AI 产品背后的前端交互到底怎么做的？
 
@@ -11,7 +11,7 @@
 ## 快速开始
 
 ```bash
-git clone https://github.com/padum/aigc-playground.git
+git clone https://github.com/paduma/aigc-playground.git
 cd aigc-playground
 npm install
 npm run dev
@@ -110,14 +110,7 @@ src/
 
 ## 部署
 
-```bash
-npm run build
-npm run start
-```
-
-或者一键部署到 Vercel：
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/padum/aigc-playground)
+push 到 main 分支后，GitHub Actions 会自动构建并部署到 GitHub Pages。
 
 ## License
 
