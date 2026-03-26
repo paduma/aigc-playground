@@ -1,116 +1,141 @@
 # AIGC Playground 🎮
 
-> 13 个 AI 产品交互模式，纯前端实现，clone 下来就能跑 | [在线预览](https://paduma.github.io/aigc-playground/)
+**English** | [中文](README.zh.md)
 
-用过 ChatGPT、Midjourney、数字人直播吗？这些 AI 产品背后的前端交互到底怎么做的？
+> 13 AI product interaction patterns, pure frontend, fork and run | [Live Demo](https://paduma.github.io/aigc-playground/)
 
-这个项目把主流 AI 产品形态拆成 13 个独立 demo，每个都能点、能玩、能看代码。全 Mock 数据，不需要 API Key，不需要后端，`npm install && npm run dev` 搞定。
+Ever used ChatGPT, Midjourney, or a digital human livestream? How are the frontend interactions behind these AI products actually built?
 
-<!-- ![AIGC Playground Overview](./docs/screenshots/overview.png) -->
+This project breaks down mainstream AI product patterns into 13 standalone demos. Each one is interactive, explorable, and fully readable. All mock data, no API keys, no backend — just `npm install && npm run dev`.
 
-## 快速开始
+## 🤖 Vibe Coded
+
+This project is built through vibe coding — a human-AI collaborative development approach where the developer drives product decisions, architecture, and quality standards while AI assists with implementation.
+
+What does that mean concretely?
+
+- Every demo was designed, reviewed, and iterated by a human developer
+- AI (Kiro) assisted with code generation, bug fixing, and feature implementation
+- The developer maintained full control over product direction and code quality
+
+This is NOT spec coding (where AI autonomously generates code from specifications with minimal human involvement). Vibe coding is hands-on collaboration — the human stays in the loop at every step, making judgment calls on UX, architecture, and edge cases that AI alone would miss.
+
+## Quick Start
+
+**Fork this repo** to experiment in your own space:
+
+1. Click the **Fork** button in the top right
+2. Clone your forked repo
 
 ```bash
-git clone https://github.com/paduma/aigc-playground.git
+git clone https://github.com/<your-username>/aigc-playground.git
 cd aigc-playground
 npm install
 npm run dev
 ```
 
-打开 http://localhost:3000 就能玩了。
+Open http://localhost:3000
 
-## 有什么
+## What's Inside
 
-四大类，13 个 demo：
+Four categories, 13 demos:
 
-### 💬 理解与对话
+### 💬 Understanding & Conversation
 
-| Demo       | 路由                | 看点                                                   |
-| ---------- | ------------------- | ------------------------------------------------------ |
-| 多模态对话 | `/chat`             | SSE 流式打字机、ECharts 图表内联渲染、多会话、文件拖拽 |
-| 语音对话   | `/voice`            | Web Speech API、实时波形 + 频谱动画                    |
-| RAG 知识库 | `/rag`              | 文档分块、相似度匹配、引用溯源                         |
-| 视频理解   | `/video-understand` | 时间轴标注、关键帧提取、内容摘要                       |
+| Demo                | Route               | Highlights                                                                   |
+| ------------------- | ------------------- | ---------------------------------------------------------------------------- |
+| Multimodal Chat     | `/chat`             | SSE streaming typewriter, inline ECharts rendering, multi-session, file drag |
+| Voice Chat          | `/voice`            | Web Speech API, real-time waveform + spectrum animation                      |
+| RAG Knowledge Base  | `/rag`              | Document chunking, similarity matching, citation tracing                     |
+| Video Understanding | `/video-understand` | Timeline annotation, keyframe extraction, content summary                    |
 
-### � 智能体
+### 🤖 Agents
 
-| Demo           | 路由            | 看点                                      |
-| -------------- | --------------- | ----------------------------------------- |
-| 数据分析 Agent | `/expert-agent` | 自然语言→ECharts 图表、SQL 生成           |
-| 对话式表单     | `/diagnose`     | 多轮引导收集信息、条件分支、结构化输出    |
-| Agent 编排     | `/agent-flow`   | 可视化画布、拖拽节点连线、简单/编排双模式 |
+| Demo                | Route           | Highlights                                                |
+| ------------------- | --------------- | --------------------------------------------------------- |
+| Data Analysis Agent | `/expert-agent` | Natural language → ECharts charts, SQL generation         |
+| Conversational Form | `/diagnose`     | Multi-turn guided info collection, conditional branching  |
+| Agent Orchestration | `/agent-flow`   | Visual canvas, drag-drop nodes, simple/workflow dual mode |
 
-### ✨ 内容创作
+### ✨ Content Creation
 
-| Demo        | 路由          | 看点                                     |
-| ----------- | ------------- | ---------------------------------------- |
-| AI 写作     | `/ai-writing` | 选中文字弹浮窗、润色/翻译/扩写、流式续写 |
-| 图片生成    | `/image-gen`  | 瀑布流画廊、4 宫格生成、变体创作         |
-| AI 视频生成 | `/video-gen`  | 关键帧时间线、参数面板、生成历史         |
+| Demo                | Route         | Highlights                                                                      |
+| ------------------- | ------------- | ------------------------------------------------------------------------------- |
+| AI Writing          | `/ai-writing` | Floating toolbar on selection, polish/translate/expand, typewriter continuation |
+| Image Generation    | `/image-gen`  | Masonry gallery, 4-grid generation, variant creation                            |
+| AI Video Generation | `/video-gen`  | Keyframe timeline, parameter panel, generation history                          |
 
-### 🌐 实时与具身
+### 🌐 Real-time & Embodied
 
-| Demo       | 路由              | 看点                                           |
-| ---------- | ----------------- | ---------------------------------------------- |
-| 数字人直播 | `/digital-human`  | Blendshape 面部驱动、TTS 脚本播报、Canvas 渲染 |
-| 实时通信   | `/realtime-video` | WebRTC P2P、SDP 信令、实时码率/帧率/RTT        |
-| 骨骼动画   | `/pose-skeleton`  | COCO-17 关键点、太极拳序列、帧间插值、运动轨迹 |
+| Demo               | Route             | Highlights                                                      |
+| ------------------ | ----------------- | --------------------------------------------------------------- |
+| Digital Human      | `/digital-human`  | Blendshape facial drive, TTS script broadcast, Canvas rendering |
+| Real-time Video    | `/realtime-video` | WebRTC P2P, SDP signaling, live bitrate/FPS/RTT                 |
+| Skeleton Animation | `/pose-skeleton`  | COCO-17 keypoints, Tai Chi sequence, frame interpolation        |
 
-## 技术栈
+## Tech Stack
 
-| 类别     | 选型                                   |
-| -------- | -------------------------------------- |
-| 框架     | Next.js 16 + React 19 (React Compiler) |
-| 样式     | Tailwind CSS v4 + oklch 色彩系统       |
-| 组件     | shadcn/ui + Base UI + Lucide Icons     |
-| 图表     | ECharts 6                              |
-| 语音     | Web Speech API                         |
-| 实时通信 | WebRTC                                 |
-| Markdown | marked                                 |
+| Category   | Choice                                 |
+| ---------- | -------------------------------------- |
+| Framework  | Next.js 16 + React 19 (React Compiler) |
+| Styling    | Tailwind CSS v4 + oklch color system   |
+| Components | shadcn/ui + Base UI + Lucide Icons     |
+| Charts     | ECharts 6                              |
+| Voice      | Web Speech API                         |
+| Real-time  | WebRTC                                 |
+| Markdown   | marked                                 |
 
-## 为什么全是 Mock？
+## Why All Mock?
 
-这不是又一个"套了 OpenAI API 的聊天框"。
+This isn't another "ChatGPT API wrapper with a chat box".
 
-项目关注的是交互层本身——流式渲染怎么做、语音对话的状态机怎么设计、Agent 画布怎么拖拽连线、数字人面部怎么驱动、WebRTC 信令怎么跑通。这些跟后端用哪个大模型没关系。
+The focus is on the interaction layer itself — how streaming rendering works, how voice chat state machines are designed, how Agent canvases handle drag-and-drop wiring, how digital human faces are driven, how WebRTC signaling flows. None of this depends on which LLM the backend uses.
 
-全 Mock 的好处：
+Benefits of all-mock:
 
-- 零成本，不需要任何外部服务
-- 离线可用，不受网络限制
-- 聚焦交互，不纠结 API 调用
+- Zero cost, no external services needed
+- Works offline, no network dependency
+- Focus on interactions, not API plumbing
 
-## 项目结构
+## Project Structure
 
 ```
 src/
-├── app/                    # 页面（App Router）
-│   ├── chat/               # 多模态对话
-│   ├── voice/              # 语音对话
-│   ├── rag/                # RAG 知识库
-│   ├── video-understand/   # 视频理解
-│   ├── expert-agent/       # 数据分析 Agent
-│   ├── diagnose/           # 对话式表单
-│   ├── agent-flow/[id]/    # Agent 编排
-│   ├── ai-writing/         # AI 写作
-│   ├── image-gen/          # 图片生成
-│   ├── video-gen/          # AI 视频生成
-│   ├── digital-human/      # 数字人直播
-│   ├── realtime-video/     # WebRTC 实时通信
-│   └── pose-skeleton/      # 骨骼动画
-├── components/             # 组件
-│   ├── ui/                 # 基础 UI (shadcn/ui)
-│   ├── chat/               # 对话组件
-│   └── sidebar.tsx         # 侧边栏导航
-└── lib/                    # 工具库
-    ├── mock-sse.ts         # SSE 流式模拟
-    ├── chat-store.ts       # 对话状态
-    └── agent-store.ts      # Agent 编排状态
+├── app/                    # Pages (App Router)
+│   ├── chat/               # Multimodal chat
+│   ├── voice/              # Voice chat
+│   ├── rag/                # RAG knowledge base
+│   ├── video-understand/   # Video understanding
+│   ├── expert-agent/       # Data analysis agent
+│   ├── diagnose/           # Conversational form
+│   ├── agent-flow/[id]/    # Agent orchestration
+│   ├── ai-writing/         # AI writing
+│   ├── image-gen/          # Image generation
+│   ├── video-gen/          # AI video generation
+│   ├── digital-human/      # Digital human
+│   ├── realtime-video/     # WebRTC real-time
+│   └── pose-skeleton/      # Skeleton animation
+├── components/
+│   ├── ui/                 # Base UI (shadcn/ui)
+│   ├── chat/               # Chat components
+│   └── sidebar.tsx         # Sidebar navigation
+└── lib/
+    ├── mock-sse.ts         # SSE streaming mock
+    ├── chat-store.ts       # Chat state
+    └── agent-store.ts      # Agent orchestration state
 ```
 
-## 部署
+## Deployment
 
-push 到 main 分支后，GitHub Actions 会自动构建并部署到 GitHub Pages。
+Push to main branch and GitHub Actions will auto-build and deploy to GitHub Pages.
+
+## Contributing
+
+Fork and PR welcome. If you find this helpful, a ⭐ Star is the best support.
+
+## Author
+
+Brook ([@paduma](https://github.com/paduma))
 
 ## License
 
