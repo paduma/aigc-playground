@@ -280,41 +280,125 @@ export default function AIWritingPage() {
     setAiResult("");
   }, []);
 
-  /* ---- AI 续写 ---- */
+  /* ---- AI 续写（打字机效果） ---- */
   const handleContinue = useCallback(() => {
     if (continuing || !editorRef.current) return;
     setContinuing(true);
     const continuation = getContinuation();
-    // 移动光标到末尾
     const el = editorRef.current;
     el.focus();
     const sel = window.getSelection();
     sel?.selectAllChildren(el);
     sel?.collapseToEnd();
-    /* 缓冲续写内容，只在遇到完整块级闭合标签时 flush，避免碎片化短行 */
-    let buf = "";
-    const BLOCK_CLOSE = /<\/(p|h[1-6]|ul|ol|li|blockquote|div|section)>\s*$/i;
 
-    const flushBuf = () => {
-      if (!buf) return;
-      const tmp = document.createElement("div");
-      tmp.innerHTML = buf;
-      while (tmp.firstChild) el.appendChild(tmp.firstChild);
-      buf = "";
-      // 滚动外层容器让新内容可见
+    /**
+     * 逐字符解析 HTML 并追加到编辑器，实现打字机效果。
+     * 遇到 `<tag>` 时创建 DOM 元素，文本内容逐字追加到当前节点。
+     */
+    let currentNode: Node | null = null; // 当前正在写入的文本节点的父元素
+    let buf = ""; // 标签缓冲
+    let inTag = false;
+
+    const scrollToBottom = () => {
       const wrap = editorWrapRef.current;
       if (wrap) wrap.scrollTop = wrap.scrollHeight;
+    };
+
+    const moveCursorToEnd = () => {
+      const s = window.getSelection();
+      if (s && el) { s.selectAllChildren(el); s.collapseToEnd(); }
+    };
+
+    const appendChar = (ch: string) => {
+      if (!currentNode) {
+        // 没有当前节点时，创建一个 <p> 作为容器
+        currentNode = document.createElement("p");
+        el.appendChild(currentNode);
+      }
+      // 追加文本字符到当前节点
+      const lastChild = currentNode.lastChild;
+      if (lastChild && lastChild.nodeType === Node.TEXT_NODE) {
+        lastChild.textContent += ch;
+      } else {
+        currentNode.appendChild(document.createTextNode(ch));
+      }
+      moveCursorToEnd();
+    };
+
+    const handleOpenTag = (tag: string) => {
+      // 解析标签名和属性，如 <strong>、<li>
+      const match = tag.match(/^<(\w+)/);
+      if (!match) return;
+      const tagName = match[1].toLowerCase();
+      const newEl = document.createElement(tagName);
+
+      // 块级元素追加到编辑器根，内联元素追加到当前节点
+      const blockTags = new Set(["p", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "li", "blockquote", "div", "section"]);
+      if (blockTags.has(tagName)) {
+        // li 追加到最近的 ul/ol
+        if (tagName === "li" && currentNode && ["UL", "OL"].includes((currentNode as Element).tagName)) {
+          currentNode.appendChild(newEl);
+        } else {
+          el.appendChild(newEl);
+        }
+        currentNode = newEl;
+      } else {
+        // 内联元素（strong, em 等）追加到当前块级节点
+        if (currentNode) {
+          currentNode.appendChild(newEl);
+          currentNode = newEl;
+        } else {
+          const p = document.createElement("p");
+          p.appendChild(newEl);
+          el.appendChild(p);
+          currentNode = newEl;
+        }
+      }
+    };
+
+    const handleCloseTag = (tag: string) => {
+      const match = tag.match(/^<\/(\w+)/);
+      if (!match) return;
+      const tagName = match[1].toLowerCase();
+      // 向上回溯到对应标签的父节点
+      let node = currentNode as Element | null;
+      while (node && node !== el) {
+        if (node.tagName?.toLowerCase() === tagName) {
+          currentNode = node.parentElement === el ? null : node.parentElement;
+          scrollToBottom();
+          return;
+        }
+        node = node.parentElement;
+      }
+      currentNode = null;
     };
 
     cancelRef.current = mockSSEStream(
       continuation,
       (chunk) => {
-        buf += chunk;
-        // 只在缓冲区包含完整块级闭合标签时 flush
-        if (BLOCK_CLOSE.test(buf)) flushBuf();
+        for (const ch of chunk) {
+          if (ch === "<") {
+            inTag = true;
+            buf = "<";
+          } else if (ch === ">" && inTag) {
+            buf += ">";
+            inTag = false;
+            if (buf.startsWith("</")) {
+              handleCloseTag(buf);
+            } else {
+              handleOpenTag(buf);
+            }
+            buf = "";
+          } else if (inTag) {
+            buf += ch;
+          } else {
+            // 普通文本字符 — 跳过 HTML 实体的分号等
+            appendChar(ch);
+          }
+        }
       },
       () => {
-        flushBuf(); // flush 剩余
+        moveCursorToEnd();
         setContinuing(false);
         updateWordCount();
       },
