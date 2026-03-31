@@ -31,7 +31,8 @@ function randomFaceParams(t: number): FaceParams {
   };
 }
 
-const AVATAR_SRC = "/avatar-cartoon-3d.jpg";
+const BASE = process.env.NODE_ENV === "production" ? "/aigc-playground" : "";
+const AVATAR_SRC = `${BASE}/avatar-cartoon-3d.jpg`;
 
 const SCRIPTS = [
   { text: "Hey, welcome to the AIGC Playground! I'm Yue, your digital host, here to give you a quick tour.", duration: 5000 },
