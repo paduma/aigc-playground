@@ -31,7 +31,7 @@ function randomFaceParams(t: number): FaceParams {
   };
 }
 
-const AVATAR_SRC = "/3d卡通人物小悦.jpg";
+const AVATAR_SRC = "/avatar-cartoon-3d.jpg";
 
 const SCRIPTS = [
   { text: "Hey, welcome to the AIGC Playground! I'm Yue, your digital host, here to give you a quick tour.", duration: 5000 },
