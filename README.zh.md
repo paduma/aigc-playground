@@ -139,4 +139,4 @@ Brook ([@paduma](https://github.com/paduma))
 
 ## License
 
-MIT
+GPL-3.0 — 可自由使用、修改和分发，但衍生作品必须以相同协议开源。详见 [LICENSE](LICENSE)。

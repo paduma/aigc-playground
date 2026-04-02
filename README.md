@@ -139,4 +139,4 @@ Brook ([@paduma](https://github.com/paduma))
 
 ## License
 
-MIT
+GPL-3.0 — You're free to use, modify, and distribute this project, but derivative works must also be open-sourced under the same license. See [LICENSE](LICENSE) for details.
